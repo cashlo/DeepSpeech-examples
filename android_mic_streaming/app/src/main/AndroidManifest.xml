@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="jp.co.sharp.android.permission.VOICEUI" />
+
 
     <application
         android:allowBackup="true"
@@ -17,8 +19,12 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="jp.co.sharp.android.rb.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <uses-library
+            android:name="jp.co.sharp.android.voiceui.framework"
+            android:required="true" />
     </application>
 
 </manifest>

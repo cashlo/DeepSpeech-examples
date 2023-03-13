@@ -10,8 +10,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import jp.co.sharp.android.voiceui.VoiceUIManager
 import kotlinx.android.synthetic.main.activity_main.*
-import org.mozilla.deepspeech.libdeepspeech.DeepSpeechModel
+import org.deepspeech.libdeepspeech.DeepSpeechModel
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -21,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     private var transcriptionThread: Thread? = null
     private var isRecording: AtomicBoolean = AtomicBoolean(false)
 
-    private val TFLITE_MODEL_FILENAME = "deepspeech-0.9.3-models.tflite"
-    private val SCORER_FILENAME = "deepspeech-0.9.3-models.scorer"
+    private val TFLITE_MODEL_FILENAME = "model.tflite"
+    private val SCORER_FILENAME = "large_vocabulary.scorer"
 
     private fun checkAudioPermission() {
         // Permission is automatically granted on SDK < 23 upon installation.
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(permission), 3)
             }
         }
+
+        VoiceUIManager.getService(this).notifyDisableMic()
     }
 
     private fun transcribe() {
@@ -88,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         model = DeepSpeechModel(tfliteModelPath)
         model?.enableExternalScorer(scorerPath)
-
+        model?.setScorerAlphaBeta(0.5891777425167632F, 0.6619145283338659F)
         return true
     }
 
